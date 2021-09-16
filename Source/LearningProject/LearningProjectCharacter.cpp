@@ -68,34 +68,8 @@ void ALearningProjectCharacter::SetupPlayerInputComponent(class UInputComponent*
 	PlayerInputComponent->BindAxis("LookUp", this, &APawn::AddControllerPitchInput);
 	PlayerInputComponent->BindAxis("LookUpRate", this, &ALearningProjectCharacter::LookUpAtRate);
 
-	// handle touch devices
-	PlayerInputComponent->BindTouch(IE_Pressed, this, &ALearningProjectCharacter::TouchStarted);
-	PlayerInputComponent->BindTouch(IE_Released, this, &ALearningProjectCharacter::TouchStopped);
-
-	// VR headset functionality
-	PlayerInputComponent->BindAction("ResetVR", IE_Pressed, this, &ALearningProjectCharacter::OnResetVR);
-}
-
-
-void ALearningProjectCharacter::OnResetVR()
-{
-	// If LearningProject is added to a project via 'Add Feature' in the Unreal Editor the dependency on HeadMountedDisplay in LearningProject.Build.cs is not automatically propagated
-	// and a linker error will result.
-	// You will need to either:
-	//		Add "HeadMountedDisplay" to [YourProject].Build.cs PublicDependencyModuleNames in order to build successfully (appropriate if supporting VR).
-	// or:
-	//		Comment or delete the call to ResetOrientationAndPosition below (appropriate if not supporting VR)
-	UHeadMountedDisplayFunctionLibrary::ResetOrientationAndPosition();
-}
-
-void ALearningProjectCharacter::TouchStarted(ETouchIndex::Type FingerIndex, FVector Location)
-{
-		Jump();
-}
-
-void ALearningProjectCharacter::TouchStopped(ETouchIndex::Type FingerIndex, FVector Location)
-{
-		StopJumping();
+    // Actions
+    PlayerInputComponent->BindAction("Attack", IE_Pressed, this, &ALearningProjectCharacter::Attack);
 }
 
 void ALearningProjectCharacter::TurnAtRate(float Rate)
@@ -137,4 +111,9 @@ void ALearningProjectCharacter::MoveRight(float Value)
 		// add movement in that direction
 		AddMovementInput(Direction, Value);
 	}
+}
+
+void ALearningProjectCharacter::Attack()
+{
+
 }
