@@ -113,7 +113,12 @@ void ALearningProjectCharacter::MoveRight(float Value)
 	}
 }
 
+void ALearningProjectCharacter::BeginPlay()
+{
+    Super::BeginPlay();
+}
+
 void ALearningProjectCharacter::Attack()
 {
-
+    PlayAnimMontage(BasicAttack1Montage);
 }
